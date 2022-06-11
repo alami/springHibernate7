@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class App {
@@ -19,7 +21,7 @@ public class App {
 
         try {
             session.beginTransaction();
-            Person person = session.get(Person.class, 3);
+            /*Person person = session.get(Person.class, 3);
             System.out.println(person);
 
             List<Item> items = person.getItems();
@@ -30,14 +32,17 @@ public class App {
             Item item = session.get(Item.class, 5);
             System.out.println(item);
             Person person1 = item.getOwner();
-            System.out.println(person1);
+            System.out.println(person1);*/
 
 //            добавим новй товар для него
 //            Item newItem = new Item("FromHibernate", person1);
 //            person1.getItems().add(newItem);  //т.е.кеширется Hibernatom :)))
 //            session.save(newItem);
 
-
+            Person person = new Person("Test Cascading", 60);
+            Item item = new Item("Test Cascading Item1",person);
+            person.setItems(new ArrayList<Item>(Collections.singletonList(item)));
+            session.persist(person);
 
             session.getTransaction().commit();
 
